@@ -7,29 +7,46 @@ package TwoSum;
 //        You can return the answer in any order.
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class TwoSum {
+
+    // works only for sorted array
     public static int[] twoSum(int[] nums, int target) {
-        Map<Integer, Integer> mapInteger = new HashMap<>();
+        int left = 0;
+        int right = nums.length - 1;
+
+        while (left < right) {
+            int sum = nums[left] + nums[right];
+            if (sum == target) {
+                return new int[]{left, right};
+            } else if (sum < target) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+        return new int[0];
+    }
+
+    // works if array sorted and unsorted. we must use HashMap for O(n) complexity
+    public static int[] twoSum2(int[] nums, int target) {
+        var map = new HashMap<Integer, Integer>();
 
         for (int i = 0; i < nums.length; i++) {
-            int temp = target - nums[i];
-
-            if (mapInteger.containsKey(temp)) {
-                return new int[] {mapInteger.get(temp), i};
+            int complement = target - nums[i];
+            if (map.containsKey(complement)) {
+                return new int[]{map.get(complement), i};
             }
-
-            mapInteger.put(nums[i], i);
+            map.put(nums[i], i);
         }
 
         return new int[0];
     }
 
     public static void main(String[] args) {
-        int[] nums = { 2, 7, 11, 15 };
-        int target = 9;
-        int[] result = twoSum(nums, target);
+        int[] nums = { 3, 2, 4 };
+        int target = 6;
+        int[] result = twoSum2(nums, target);
 
         for (int index: result) {
             System.out.print(index + " ");
